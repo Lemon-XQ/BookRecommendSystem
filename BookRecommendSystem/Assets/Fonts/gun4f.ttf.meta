@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b68fb2e544b33e4498c28daa7fa91ff1
+timeCreated: 1508315972
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Gunship
+  fontNames:
+  - Gunship
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

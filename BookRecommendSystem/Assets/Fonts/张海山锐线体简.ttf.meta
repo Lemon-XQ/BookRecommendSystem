@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: fd033afd703bd2946a700e7da4d23e7b
+timeCreated: 1508315561
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ZHSRXT-GBK
+  fontNames:
+  - ZHSRXT-GBK
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

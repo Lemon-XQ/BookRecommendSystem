@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f17b30420d0f9a14f9b14c67f4c117dc
+timeCreated: 1508315987
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: comic andy
+  fontNames:
+  - comic andy
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
