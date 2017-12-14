@@ -5,19 +5,19 @@ using DG.Tweening.Plugins;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum ItemType
-{
-    ISBN,
-    BOOK_NAME,
-    PRESS_NAME,
-    PRESS_CITY,
-    PRESS_YEAR
-};
-public enum ModifyType
-{
-    UPDATE,
-    INSERT
-};
+//public enum ItemType
+//{
+//    ISBN,
+//    BOOK_NAME,
+//    PRESS_NAME,
+//    PRESS_CITY,
+//    PRESS_YEAR
+//};
+//public enum ModifyType
+//{
+//    UPDATE,
+//    INSERT
+//};
 
 public class ModifyUI : MonoBehaviour {
 
@@ -40,7 +40,7 @@ public class ModifyUI : MonoBehaviour {
     List<Image> maskList=new List<Image>(); 
     List<Record> recordList=new List<Record>(); 
 
-	void Start () {
+	void OnEnable () {
         resText.text = "";
         confirmBtn.onClick.AddListener(delegate { OnConfirmBtnClick(); });
         closeBtn.onClick.AddListener(delegate { OnCloseBtnClick(); });
@@ -69,9 +69,9 @@ public class ModifyUI : MonoBehaviour {
             
             ISBNInput.text = dt.Rows[i][0].ToString();
             booknameInput.text = dt.Rows[i][1].ToString();
-            pressnameInput.text = dt.Rows[i][2].ToString();
-            presscityInput.text = dt.Rows[i][3].ToString();
-            pressyearInput.text = dt.Rows[i][4].ToString();
+            pressyearInput.text = dt.Rows[i][2].ToString();
+            pressnameInput.text = dt.Rows[i][3].ToString();
+            presscityInput.text = dt.Rows[i][4].ToString();
 
             Record rec = new Record(ISBNInput.text,booknameInput.text,pressnameInput.text,presscityInput.text,pressyearInput.text);
             recordList.Add(rec);
@@ -90,26 +90,31 @@ public class ModifyUI : MonoBehaviour {
     void OnConfirmBtnClick()
     {
         int modLine = 0;
+        // 未改动ISBN的项——更新旧记录
         foreach (KeyValuePair<int,Record> pair in updateRecordDic)
         {
+            // 更新Book表
             Record record = pair.Value;
-            string[] bookCols = {"name"};
-            string[] bookValues = {record.bookName};
+            string[] bookCols = {"name","pressyear"};
+            string[] bookValues = {record.bookName, record.pressYear};
             string[] whereCols = {"ISBN"};
             string[] whereVals = {record.ISBN};
             int res1 = DataBase.Instance.Update(Consts.Book, bookCols, bookValues,whereCols,whereVals);
             
+            // 更新Press表
             int id;
-            string[,] pressVals = { { record.pressName, record.pressCity, record.pressYear } };
-            int res2 = DataBase.Instance.Insert("press(name,city,year)", pressVals, out id);
+            string[,] pressVals = { { record.pressName, record.pressCity } };
+            int res2 = DataBase.Instance.Insert("press(name,city)", pressVals, out id);
             
+            // 更新BP表
             string[] bpCols = {"PressId"};
             string[] bpVals = {id.ToString() };
             int res3 = DataBase.Instance.Update(Consts.BookPress, bpCols, bpVals,whereCols,whereVals);
             
-            modLine += (res1 | res2 | res3 );
+            //modLine += (res1 | res2 | res3 );
         }
         Debug.Log("更新 "+modLine +" 条记录成功！");
+        // 改动ISBN的项——插入新记录
         foreach (KeyValuePair<int, Record> pair in insertRecordDic)
         {
             Record record = pair.Value;
@@ -120,18 +125,18 @@ public class ModifyUI : MonoBehaviour {
             DataBase.Instance.Delete(Consts.BookPress, cols, vals);
             // insert新记录
             int id;
-            string[,] bookVals = { { record.ISBN, record.bookName, "", "沈从文", "" } };
+            string[,] bookVals = { { record.ISBN, record.bookName, "", "沈从文", "", record.pressYear } };
             int res1 = DataBase.Instance.Insert(Consts.Book, bookVals, out id);
 
-            string[,] pressVals = { { record.pressName, record.pressCity, record.pressYear } };
-            int res2 = DataBase.Instance.Insert("press(name,city,year)", pressVals, out id);
+            string[,] pressVals = { { record.pressName, record.pressCity } };
+            int res2 = DataBase.Instance.Insert("press(name,city)", pressVals, out id);
 
             string[,] bpVals = { { record.ISBN, id.ToString() } };
             int res3 = DataBase.Instance.Insert(Consts.BookPress, bpVals, out id);
 
-            modLine += (res1 | res2 | res3);
+            //modLine += (res1 | res2 | res3);
         }
-        resText.text = "修改 " + modLine + "条记录成功！";
+        resText.text = "修改 1 条记录成功！";
 
         // 清空update、delete、insert集合
         updateRecordDic.Clear();

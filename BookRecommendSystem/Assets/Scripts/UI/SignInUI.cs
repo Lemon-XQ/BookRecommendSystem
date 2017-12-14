@@ -6,6 +6,8 @@ public class SignInUI : MonoBehaviour {
 
     [Header("登录按钮")]
     public Button signInBtn;
+	[Header("注册按钮")]
+	public Button registerBtn;
     [Header("关闭按钮")] 
     public Button closeBtn;
     [Header("用户名文本")]
@@ -22,6 +24,7 @@ public class SignInUI : MonoBehaviour {
 	void Start ()
 	{
 	    signInBtn.onClick.AddListener(delegate { OnSignInBtnClick(); });
+		registerBtn.onClick.AddListener(delegate { OnRegisterBtnClick(); });
 	    closeBtn.onClick.AddListener(delegate { OnCloseBtnClick(); });
 	}
 
@@ -52,6 +55,47 @@ public class SignInUI : MonoBehaviour {
             this.gameObject.SetActive(false);
         }
     }
+
+	void OnRegisterBtnClick()
+	{
+		string username = userName.text;
+		string pwd = password.text;
+		// 检测输入是否合理
+		if (username == null || pwd == null || username == "" || pwd == "") {
+			errorText.enabled = true;
+			errorText.text = "";
+			if (username == "")
+				errorText.text = "用户名 ";
+			if (pwd == "")
+				errorText.text += "密码 ";
+			errorText.text += "不能为空！";
+		} else {
+			string[] selCols = {"*"};
+			string[] tables = {"user"};
+			string[] cols = {"username","password"};
+			string[] operations = {"=","="};
+			string[] values = {username, pwd};
+
+			DataSet ds = DataBase.Instance.Query(selCols, tables, cols, operations, values);
+			DataTable dt = ds.Tables[0];
+			if (dt.Rows.Count != 0)
+			{
+				errorText.enabled = true;
+				errorText.text = "该用户已存在！";
+			}
+			else
+			{
+				errorText.enabled = false;
+				// 数据库插入
+				int id;
+				string[,] values_user = { { username, pwd, "0" } };
+				DataBase.Instance.Insert(Consts.User, values_user, out id);
+				errorText.enabled = true;
+				errorText.text = "注册成功！";
+			}
+		}
+
+	}
 
     void OnCloseBtnClick()
     {

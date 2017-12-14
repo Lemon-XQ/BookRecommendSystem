@@ -33,7 +33,8 @@ public class SearchUI : MonoBehaviour {
     private string ISBN;
     private string pressYear;
 
-	void Start () {
+    void Start()
+    {
         searchBtn.onClick.AddListener(delegate { OnSearchBtnClick(); });
         closeBtn.onClick.AddListener(delegate { OnCloseBtnClick(); });
         cityDropdown.onValueChanged.AddListener(delegate { pressCity = cityDropdown.options[cityDropdown.value].text; });
@@ -43,6 +44,20 @@ public class SearchUI : MonoBehaviour {
         yearInput.onValueChanged.AddListener(delegate { pressYear= yearInput.text; });
     
         InitPressDropdown();
+    }
+
+    void OnEnable()
+    {
+        booknameInput.text = "";
+        ISBNInput.text = "";
+        yearInput.text = "";
+        InitPressDropdown();
+        // 清空原来的查询结果
+        for (int i = 0; i < recordContainer.childCount; i++)
+        {
+            Destroy(recordContainer.GetChild(i).gameObject);
+        } 
+
     }
 
     HashSet<string> pressSet = new HashSet<string>();
@@ -111,9 +126,9 @@ public class SearchUI : MonoBehaviour {
             InputField pressyearInput = record.transform.Find("pressyear").GetComponent<InputField>();
             ISBNInput.text = dt.Rows[i][0].ToString();
             booknameInput.text = dt.Rows[i][1].ToString();
-            pressnameInput.text = dt.Rows[i][2].ToString();
-            presscityInput.text = dt.Rows[i][3].ToString();
-            pressyearInput.text = dt.Rows[i][4].ToString();
+            pressyearInput.text = dt.Rows[i][2].ToString();
+            pressnameInput.text = dt.Rows[i][3].ToString();
+            presscityInput.text = dt.Rows[i][4].ToString();
             // 不可编辑
             ISBNInput.enabled = false;
             booknameInput.enabled = false;

@@ -7,4 +7,5 @@ public class Consts : MonoBehaviour {
     public const string Book = "Book";
     public const string BookPress = "BP";
     public const string Press = "Press";
+	public const string User = "user";
 }

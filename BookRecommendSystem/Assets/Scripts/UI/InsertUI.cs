@@ -60,6 +60,19 @@ public class InsertUI : MonoBehaviour {
         InitPressDropdown();
     }
 
+    void OnEnable()
+    {
+        resText.text = "";
+        booknameInput.text = "";
+        ISBNInput.text = "";
+        yearInput.text = "";
+        pressInput.text = "";
+        cityInput.text = "";
+        imageInput.text = "";
+        introInput.text = "";
+        InitPressDropdown();
+    }
+
     HashSet<string> pressSet=new HashSet<string>();
     HashSet<string> citySet = new HashSet<string>();
 
@@ -114,10 +127,10 @@ public class InsertUI : MonoBehaviour {
                 int pressId;
                 if (imageId == "")
                     imageId = "-1";// 默认封面图
-                string[,] values_book = { { ISBN, bookName, bookIntro, "沈从文", imageId } };
-                string[,] values_press = { { pressName, pressCity, pressYear } };
+                string[,] values_book = { { ISBN, bookName, bookIntro, "沈从文", imageId, pressYear } };
+                string[,] values_press = { { pressName, pressCity } };
                 int res1 = DataBase.Instance.Insert("book", values_book, out pressId);
-                int res2 = DataBase.Instance.Insert("press(name,city,year)", values_press, out pressId);
+                int res2 = DataBase.Instance.Insert("press(name,city)", values_press, out pressId);
                 string[,] values_bp = { { ISBN, pressId.ToString() } };
                 int res3 = DataBase.Instance.Insert("bp", values_bp, out pressId);
                 if (res1 == 1 && res3 == 1)

@@ -1,7 +1,7 @@
 ﻿
 public class User
 {
-    public User(string username, string password,string isAdmin)
+	public User(string username, string password,string isAdmin="0")
     {
         this.username = username;
         this.password = password;

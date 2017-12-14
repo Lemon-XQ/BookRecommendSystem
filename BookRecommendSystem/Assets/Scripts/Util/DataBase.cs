@@ -28,8 +28,7 @@ public class DataBase : Singleton<DataBase>
         catch (Exception e)
         {
             throw new Exception("服务器连接失败，请重新检查是否打开MySql服务。" + e.Message.ToString()); 
-        }
-        
+        }       
     }
 
     public DataSet Query(string[] selectCols, string[] tables, string[] cols, string[] operations, string[] values)
@@ -51,7 +50,7 @@ public class DataBase : Singleton<DataBase>
                 }
             }
             
-            if (cols.Length > 0 && cols.Length == values.Length && cols.Length==operations.Length)
+            if (cols.Length > 0 && cols.Length == values.Length && cols.Length == operations.Length)
             {
                 cmd += " where " + cols[0] + operations[0] + "'"+ values[0] + "'";
                 for (int i = 1; i < cols.Length; ++i)
@@ -235,9 +234,9 @@ public class DataBase : Singleton<DataBase>
         Record record = new Record();
         record.ISBN = row[0].ToString();
         record.bookName = row[1].ToString();
-        record.pressName = row[2].ToString();
-        record.pressCity = row[3].ToString();
-        record.pressYear = row[4].ToString();
+        record.pressYear = row[2].ToString();
+        record.pressName = row[3].ToString();
+        record.pressCity = row[4].ToString();
         record.bookIntro = row[5].ToString();
         record.bookImage = int.Parse(row[6].ToString());
         return record;
